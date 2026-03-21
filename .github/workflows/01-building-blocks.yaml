@@ -11,9 +11,9 @@ jobs:
     echo-goodbye:
         runs-on: windows-latest
         steps:
-            - name: Failed Step
+            - name: Successful Step
               run: |
-                echo " I will fail"
-                exit 1
+                echo " I successed"
+                exit 0
             - name: Say GoodBye
               run: echo "Good Bye"
