@@ -1,6 +1,6 @@
 name: 03 - Workflow Runners
 
-on: push
+on: workflow_dispatch
 
 jobs:
     ubuntu-echo:
@@ -14,6 +14,7 @@ jobs:
        runs-on: windows-latest
        steps:
         - name: Show OS
+          shell: bash
           run: |
             echo "This job is running on Windows OS"
             echo "Runner OS : $RUNNER_OS"
