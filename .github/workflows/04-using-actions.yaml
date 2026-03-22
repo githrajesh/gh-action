@@ -17,6 +17,7 @@ jobs:
                 node-version: '20.x'
             - name: Install Dependencies
               run: npm ci
+              working-directory: react-app
             #0 Check out the code from repo
         
         #1. Install dep on our react apps
