@@ -1,0 +1,20 @@
+name: OWASP ZAP integration with Git actions
+on: [push]
+permissions:
+    contents: read
+    issues: write
+jobs:
+    zap_scan:
+        runs-on: ubuntu-latest
+        name: Scan the Web Application
+        steps:
+            - name : check out
+              uses: actions/checkout@v4
+              with:
+                ref: master
+            - name: ZAP Sacn
+              uses: zaproxy/action-baseline@v0.14.0
+              with:
+                target: 'http://testphp.vulnweb.com'
+                rules_file_name: 'zap/rules.tsv'
+                cmd_options: '-a'
