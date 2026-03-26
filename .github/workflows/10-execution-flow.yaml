@@ -1,0 +1,59 @@
+name: 10 - Controlling the Execution Flow
+
+on:
+    workflow_dispatch:
+        inputs:
+            pass-unit-tests:
+                type: boolean
+                description: Whether unit tests will pass or not
+                default: true
+
+jobs:
+    lint-build:
+        runs-on: windows-lateset
+        steps:
+            - name: Lint and Builld
+              run: echo "Linting and Building Project"
+                npm run lint
+                npm run format:check
+                npm run tsc:check
+                npm
+    unit-test:
+        runs-on: windows-lateset
+        steps:
+            - name: Running Unit Tests
+              run: echo "Running Tests"
+            - name: Failing Tests
+              if: ${{!inputs.pass-unit-tests}}
+              run: exit 1
+    deploy-nonprod:
+        runs-on: windows-lateset
+        needs:
+            - lint-build
+            - unit-test
+        steps:
+             - name: Deploying to Non Prod
+               run: echo "Deploying to Non Prod"
+
+    e2e-tests:
+        runs-on: windows-lateset
+        needs:
+            - deploy-nonprod
+        steps:
+            - name: Running E2E tests
+              run: echo "Running E2E Tests"
+    load-tests:
+        runs-on: windows-latest
+        needs:
+            - deploy-nonprod
+        steps:
+            - name: Running Load tests
+              run: echo "Running Load Tests"
+    deploy-prod:
+        runs-on: windows-lateset'
+        needs:
+            - e2e-tests
+            - load-tests
+        steps:
+            - name: Deploying Prod
+              run: echo "Deploying to Prod"
